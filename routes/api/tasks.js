@@ -18,4 +18,7 @@ router.post(
   ),
   taskCtrl.createTasks
 );
+
+router.get("/:projectId/allTasks", taskCtrl.getAllTasks)
+router.get("/:taskId/task", taskCtrl.getParticularTask)
 module.exports = router;

@@ -19,7 +19,7 @@ exports.createTasks = async (req, res) => {
     const pathE = task?.path;
     const npathE = pathE.replaceAll("\\", "/");
     task.path = npathE.replace("public/", "");
-    
+
     const project = await TaskModel.find({ projectId: projectId });
 
     const tasks = new TaskModel({
@@ -29,7 +29,7 @@ exports.createTasks = async (req, res) => {
       startDate: startDate || new Date(),
       dueDate: dueDate || new Date(),
       projectId: projectId,
-      attachments: task
+      attachments: task,
     });
     const savedTask = await tasks.save();
     console.log(savedTask, "All tasks");
@@ -52,6 +52,36 @@ exports.createTasks = async (req, res) => {
       },
       201
     );
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
+
+exports.getAllTasks = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { projectId } = req.params;
+    const allTasks = await TaskModel.find({
+      projectId: projectId,
+    });
+
+    sendSuccessResponse(res, {
+      data: allTasks,
+    });
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
+
+exports.getParticularTask = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { taskId } = req.params;
+    const task = await TaskModel.findById(taskId);
+
+    sendSuccessResponse(res, {
+      data: task,
+    });
   } catch (error) {
     sendErrorResponse(res, error.message);
   }
