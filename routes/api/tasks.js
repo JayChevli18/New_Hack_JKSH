@@ -5,7 +5,7 @@ const taskCtrl = require("../../controllers/task.controller");
 const pdfUpload = require("../../middleware/file-upload")
 
 router.post(
-  "/createTasks",
+  "/:projectId/createTasks",
   pdfUpload.fileUpload(
     "tasks",
     ["pdf", "image"],

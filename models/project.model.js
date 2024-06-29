@@ -12,7 +12,11 @@ const ProjectSchema = new Schema(
         creatorId: {
             type: Schema.Types.ObjectId,
             ref: "user"
-        }
+        },
+        taskId:[{
+            type: Schema.Types.ObjectId,
+            ref: "task"
+        }]
     },
     {
         timestamps: true,

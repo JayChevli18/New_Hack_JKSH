@@ -3,6 +3,7 @@ const { sendSuccessResponse, sendErrorResponse } = require("../utils/response");
 const environment = require("../utils/environment");
 const dayjs = require("dayjs");
 const UserModel = require("../models/user.model");
+const ProjectModel = require("../models/project.model");
 
 exports.createTasks = async (req, res) => {
   try {
@@ -10,31 +11,44 @@ exports.createTasks = async (req, res) => {
     const { projectId } = req.params;
     const { taskName, taskDesc, status, startDate, dueDate } = req.body;
 
-    const [task] = req.files.task;
-    const pathE = task?.path;
-    const npathE = pathE.replaceAll("\\", "/");
-    policy.path = npathE.replace("public/", "");
-
     if (!req.files) {
       return sendErrorResponse(res, "File is missing", 400);
     }
 
-    const project = new ProjectModel({
-      projectName,
-      projectDesc,
-      creatorId: _id,
+    const [task] = req.files.task;
+    const pathE = task?.path;
+    const npathE = pathE.replaceAll("\\", "/");
+    task.path = npathE.replace("public/", "");
+    
+    const project = await TaskModel.find({ projectId: projectId });
+
+    const tasks = new TaskModel({
+      taskName,
+      taskDesc,
+      status,
+      startDate: startDate || new Date(),
+      dueDate: dueDate || new Date(),
+      projectId: projectId,
+      attachments: task
     });
-    const savedProject = await project.save();
-    console.log(savedProject, "abc");
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      _id,
-      { projectId: savedProject?._id },
-      { new: true }
-    ).lean();
+    const savedTask = await tasks.save();
+    console.log(savedTask, "All tasks");
+
+    await ProjectModel.findByIdAndUpdate(
+      projectId,
+      {
+        $push: {
+          taskId: savedTask._id,
+        },
+      },
+      {
+        new: true,
+      }
+    );
     sendSuccessResponse(
       res,
       {
-        data: { Projects: savedProject, Users: updatedUser },
+        data: savedTask,
       },
       201
     );
