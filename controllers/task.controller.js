@@ -93,29 +93,54 @@ exports.updateTask = async (req, res) => {
     const { taskId } = req.params;
     const { taskName, taskDesc, status, startDate, dueDate } = req.body;
 
-    if (!req.files) {
-      return sendErrorResponse(res, "File is missing", 400);
-    }
+    let updatedTask;
+    //   const [task] = req.files.task;
+    //   const pathE = task?.path;
+    //   const npathE = pathE.replaceAll("\\", "/");
+    //   task.path = npathE.replace("public/", "");
+    //   console.log(task, "tassk");
+    //   updatedTask = await TaskModel.findByIdAndUpdate(
+    //     taskId,
+    //     {
+    //       taskName: taskName,
+    //       taskDesc: taskDesc,
+    //       status: status,
+    //       startDate: startDate,
+    //       dueDate: dueDate,
+    //       attachments: task,
+    //     },
+    //     {
+    //       new: true,
+    //     }
+    //   );
+    //   console.log(updatedTask, "updatedd");
+      let columns = Object.keys(req.body);
+      let columnNames = columns.map((val) => {
+        return { [val]: req.body[val] };
+      });
+      const mergedObject = columnNames.reduce((result, currentObject) => {
+        return { ...result, ...currentObject };
+      }, {});
 
-    const [task] = req.files.task;
-    const pathE = task?.path;
-    const npathE = pathE.replaceAll("\\", "/");
-    task.path = npathE.replace("public/", "");
+      updatedTask = await TaskModel.findByIdAndUpdate(
+        taskId,
+        {
+          ...mergedObject,
+        },
+        {
+          new: true,
+        }
+      );
 
-    const updatedTask = await TaskModel.findByIdAndUpdate(
-      taskId,
-      {
-        taskName: taskName,
-        taskDesc: taskDesc,
-        status: status,
-        startDate: startDate,
-        dueDate: dueDate,
-        attachments: task,
-      },
-      {
-        new: true,
+      if (req.files.task) {
+        const [task] = req.files.task;
+        const pathE = task?.path;
+        const npathE = pathE.replaceAll("\\", "/");
+        task.path = npathE.replace("public/", "");
+
+        updatedTask.attachments = task;
+        await updatedTask.save();
       }
-    );
 
     sendSuccessResponse(res, {
       data: updatedTask,
@@ -131,12 +156,11 @@ exports.deleteTask = async (req, res) => {
     const { taskId } = req.params;
 
     const deletedTask = await TaskModel.findByIdAndDelete(taskId);
-    if(!deletedTask){
+    if (!deletedTask) {
       sendSuccessResponse(res, {
         message: "Task Already Deleted!",
       });
-    }
-    else{
+    } else {
       sendSuccessResponse(res, {
         message: "Task Deleted successfully!",
       });
