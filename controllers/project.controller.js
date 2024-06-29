@@ -99,10 +99,11 @@ exports.deleteProject = async (req, res) => {
         message: "Project Already Deleted!",
       });
     }
-    console.log(deletedProject, "deleted");
-    sendSuccessResponse(res, {
-      message: "Project Deleted successfully!",
-    });
+    else{
+        sendSuccessResponse(res, {
+          message: "Project Deleted successfully!",
+        });
+    }
   } catch (error) {
     sendErrorResponse(res, error.message);
   }

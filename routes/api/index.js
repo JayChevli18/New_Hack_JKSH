@@ -21,6 +21,6 @@ router.use("/user", userRoutes);
 
 router.use("/project", projectRoutes)
 
-// router.use("/tasks", taskRoutes)
+router.use("/tasks", taskRoutes)
 
 module.exports = router;
