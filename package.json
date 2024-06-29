@@ -26,6 +26,7 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^8.4.4",
     "morgan": "^1.10.0",
+    "node-mailwizz": "^2.0.9",
     "number-to-words": "^1.2.4",
     "path": "^0.12.7",
     "socket.io": "^4.6.1",

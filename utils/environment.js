@@ -22,4 +22,17 @@ module.exports = {
   //     apiKey: process.env.GOOGLE_PLACE_API_KEY,
   //   },
   // },
+  smscountry: {
+    apiUrl: process.env.SMSCOUNTRY_BASEURL,
+    authKey: process.env.SMSCOUNTRY_AUTHKEY,
+    authToken: process.env.SMSCOUNTRY_AUTHTOKEN,
+    senderId: process.env.SENDERID,
+  },
+  mailwizz: {
+    apiUrl: process.env.MAILWIZZ_API_URL,
+    publicKey: process.env.MAILWIZZ_PUBLIC_KEY,
+    secret: process.env.MAILWIZZ_SECRET,
+    listId: process.env.MAILWIZZ_LIST_ID,
+  },
+
 };

@@ -4,9 +4,10 @@ const { sendSuccessResponse, sendErrorResponse } = require("../utils/response");
 const environment = require("../utils/environment");
 const { generateRandomString } = require("../utils/fn");
 const dayjs = require("dayjs");
+const mailwizzApi = require("../services/mailwizz-api-service");
 
 // const { sendHtmlEmail } = require("../helpers/email.helper");
-// const smsCountryAPI = require("../services/smscountry-api-service");
+const smsCountryAPI = require("../services/smscountry-api-service");
 const SMSResponseModel = require("../models/smsresponse.model");
 
 exports.signup = async (req, res) => {
@@ -60,7 +61,7 @@ exports.signupwithotp = async (req, res) => {
 
 exports.sendOtp = (module) => async (req, res) => {
   try {
-    const { email, countryCode, mobileNumber, fullName } = req.body;
+    const { email, mobileNumber, fullName } = req.body;
     //   if (email) {
     //     const isEmailBlacklisted = await BlackListModel.findOne({
     //       email: email,
@@ -128,7 +129,6 @@ exports.sendOtp = (module) => async (req, res) => {
       condition(module),
       {
         ...(email ? { email } : {}),
-        ...(countryCode ? { countryCode } : {}),
         ...(mobileNumber ? { mobileNumber } : {}),
         ...(fullName ? { fullName } : {}),
         otp,
@@ -202,7 +202,7 @@ exports.sendOtp = (module) => async (req, res) => {
 
 exports.verifyOtp = (module) => async (req, res) => {
   try {
-    const { email, countryCode, mobileNumber, otp, ref } = req.body;
+    const { email, mobileNumber, otp, ref } = req.body;
     //   if (email) {
     //     const isEmailBlacklisted = await BlackListModel.findOne({
     //       email: email,
