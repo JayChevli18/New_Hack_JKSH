@@ -12,4 +12,7 @@ module.exports = {
     admin: "Admin",
     user: "User",
   },
+  taskStatus:{
+    status: ["PENDING", "COMPLETED", "IN PROGRESS", "UPCOMMING"]
+  }
 };

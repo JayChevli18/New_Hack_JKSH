@@ -21,9 +21,13 @@ exports.createProject = async (req, res) => {
       { projectId: savedProject?._id },
       { new: true }
     ).lean();
-    sendSuccessResponse(res, {
-      data: { Projects: savedProject, Users: updatedUser }
-    }, 201);
+    sendSuccessResponse(
+      res,
+      {
+        data: { Projects: savedProject, Users: updatedUser },
+      },
+      201
+    );
   } catch (error) {
     sendErrorResponse(res, error.message);
   }
@@ -90,9 +94,14 @@ exports.deleteProject = async (req, res) => {
       }
     );
 
+    if (!deletedProject) {
+      sendSuccessResponse(res, {
+        message: "Project Already Deleted!",
+      });
+    }
     console.log(deletedProject, "deleted");
     sendSuccessResponse(res, {
-      message: "Project Deleted successfully!"
+      message: "Project Deleted successfully!",
     });
   } catch (error) {
     sendErrorResponse(res, error.message);
