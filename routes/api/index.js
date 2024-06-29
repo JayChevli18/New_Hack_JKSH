@@ -5,7 +5,7 @@ var router = express.Router();
 const userRoutes = require("./users");
 const projectRoutes = require("./project");
 const taskRoutes = require("./tasks");
-// const sessionRoutes = require('./')
+const commentRoutes = require('./comments')
 
 const authRoutes = require("./auth");
 
@@ -22,5 +22,7 @@ router.use("/user", userRoutes);
 router.use("/project", projectRoutes)
 
 router.use("/tasks", taskRoutes)
+
+router.use("/comments", commentRoutes)
 
 module.exports = router;
