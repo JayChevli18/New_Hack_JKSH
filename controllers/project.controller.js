@@ -28,3 +28,30 @@ exports.createProject = async (req, res) => {
     sendErrorResponse(res, error.message);
   }
 };
+
+exports.getUserProjects = async (req, res) => {
+  try {
+    const { _id } = req.user;
+
+    const project = await ProjectModel.find({
+      creatorId: _id,
+    });
+
+    sendSuccessResponse(res, {
+      data: project,
+    });
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
+
+exports.getAllCreatorsProjects = async (req, res) => {
+  try {
+    const allProjects = await ProjectModel.find();
+    sendSuccessResponse(res, {
+      data: allProjects,
+    });
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
