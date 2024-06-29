@@ -12,7 +12,8 @@ const TasksSchema = new Schema(
         },
         status: {
             type: String,
-            enum: constants.taskStatus.status
+            enum: constants.taskStatus.status,
+            default: "PENDING"
         },
         startDate: {
             type: Date
