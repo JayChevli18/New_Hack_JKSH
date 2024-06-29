@@ -3,6 +3,7 @@ const authentication = require("../../middleware/authentication");
 const authorization = require("../../middleware/authorization");
 var router = express.Router();
 const userRoutes = require("./users");
+const projectRoutes = require("./project");
 // const sessionRoutes = require('./')
 
 const authRoutes = require("./auth");
@@ -17,5 +18,6 @@ router.use(authentication);
 // Secure Routes
 router.use("/user", userRoutes);
 
+router.use("/project", projectRoutes)
 
 module.exports = router;
