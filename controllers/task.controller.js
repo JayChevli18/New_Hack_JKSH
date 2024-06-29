@@ -86,3 +86,41 @@ exports.getParticularTask = async (req, res) => {
     sendErrorResponse(res, error.message);
   }
 };
+
+exports.updateTask = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { taskId } = req.params;
+    const { taskName, taskDesc, status, startDate, dueDate } = req.body;
+
+    if (!req.files) {
+      return sendErrorResponse(res, "File is missing", 400);
+    }
+
+    const [task] = req.files.task;
+    const pathE = task?.path;
+    const npathE = pathE.replaceAll("\\", "/");
+    task.path = npathE.replace("public/", "");
+
+    const updatedTask = await TaskModel.findByIdAndUpdate(
+      taskId,
+      {
+        taskName: taskName,
+        taskDesc: taskDesc,
+        status: status,
+        startDate: startDate,
+        dueDate: dueDate,
+        attachments: task
+      },
+      {
+        new: true,
+      }
+    );
+
+    sendSuccessResponse(res, {
+      data: updatedTask,
+    });
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
