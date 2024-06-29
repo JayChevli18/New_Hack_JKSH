@@ -1,0 +1,41 @@
+{
+  "name": "hack_jksh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.7",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-generator": "^4.16.1",
+    "helmet": "^6.1.4",
+    "http-errors": "^2.0.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^8.4.4",
+    "morgan": "^1.10.0",
+    "number-to-words": "^1.2.4",
+    "path": "^0.12.7",
+    "socket.io": "^4.6.1",
+    "twilio": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=18.x",
+    "npm": ">=8.x"
+  }
+}
