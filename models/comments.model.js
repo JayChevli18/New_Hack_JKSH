@@ -16,7 +16,14 @@ const CommentSchema = new Schema(
     comment: {
       type: String,
     },
-    // task id pending 
+    taskId: {
+      type: Schema.Types.ObjectId,
+      ref: "task",
+    },
+    projectId: {
+      type: Schema.Types.ObjectId,
+      ref: "project",
+    }
   },
   {
     timestamps: true,
