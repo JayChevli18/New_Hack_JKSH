@@ -110,7 +110,7 @@ exports.updateTask = async (req, res) => {
         status: status,
         startDate: startDate,
         dueDate: dueDate,
-        attachments: task
+        attachments: task,
       },
       {
         new: true,
@@ -120,6 +120,27 @@ exports.updateTask = async (req, res) => {
     sendSuccessResponse(res, {
       data: updatedTask,
     });
+  } catch (error) {
+    sendErrorResponse(res, error.message);
+  }
+};
+
+exports.deleteTask = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const { taskId } = req.params;
+
+    const deletedTask = await TaskModel.findByIdAndDelete(taskId);
+    if(!deletedTask){
+      sendSuccessResponse(res, {
+        message: "Task Already Deleted!",
+      });
+    }
+    else{
+      sendSuccessResponse(res, {
+        message: "Task Deleted successfully!",
+      });
+    }
   } catch (error) {
     sendErrorResponse(res, error.message);
   }
